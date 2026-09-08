@@ -1,12 +1,17 @@
 [submodule "active-adaptation"]
 	path = active-adaptation
-	url = git@github.com:Agent-3154/active-adaptation.git
+	url = https://github.com/MIy2003/active-adaptation.git
 	branch = dev/hdmi
+	ignore = untracked
 [submodule "mimic-lite"]
 	path = mimic-lite
-	url = git@github.com:EGalahad/mimic-lite.git
+	url = https://github.com/MIy2003/mimic-lite.git
 	branch = main
 [submodule "sim2real"]
 	path = sim2real
-	url = git@github.com:EGalahad/sim2real.git
+	url = https://github.com/MIy2003/sim2real.git
+	branch = main
+[submodule "any4hdmi"]
+	path = any4hdmi
+	url = https://github.com/MIy2003/any4hdmi.git
 	branch = main

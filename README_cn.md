@@ -12,10 +12,10 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 | 组件 | 仓库 | 内容 |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | 训练、评测、策略导出、任务配置和学习代码。 |
-| 训练框架 | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | 仿真后端、分布式启动器、环境和共享基础设施。 |
-| 动作数据工具 | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | 动作转换、验证、可视化和数据集工具。 |
-| 部署运行时 | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX 推理、MuJoCo sim2sim、Pico 遥操作和 Unitree G1 部署。 |
+| MimicLite | [`MIy2003/mimic-lite`](https://github.com/MIy2003/mimic-lite) | 训练、评测、策略导出、任务配置和学习代码。 |
+| 训练框架 | [`MIy2003/active-adaptation`](https://github.com/MIy2003/active-adaptation) | 仿真后端、分布式启动器、环境和共享基础设施。 |
+| 动作数据工具 | [`MIy2003/any4hdmi`](https://github.com/MIy2003/any4hdmi) | 动作转换、验证、可视化和数据集工具。 |
+| 部署运行时 | [`MIy2003/sim2real`](https://github.com/MIy2003/sim2real) | ONNX 推理、MuJoCo sim2sim、Pico 遥操作和 Unitree G1 部署。 |
 
 ## 已发布 Checkpoint
 
@@ -43,11 +43,11 @@ MimicLite v1.1 的 deploy ONNX 和 YAML 可从
 
 ## 训练数据
 
-已公开的训练数据集统一收录在 [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi)。唯一的例外是 [`BONES-SEED` 数据集](https://huggingface.co/datasets/bones-studio/seed)：为遵守其许可证和再分发条款，用户需要从原始来源获取数据；[`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) 只提供对应的转换脚本和处理工具。
+已公开的训练数据集统一收录在 [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi)。唯一的例外是 [`BONES-SEED` 数据集](https://huggingface.co/datasets/bones-studio/seed)：为遵守其许可证和再分发条款，用户需要从原始来源获取数据；[`MIy2003/any4hdmi`](https://github.com/MIy2003/any4hdmi) 只提供对应的转换脚本和处理工具。
 
 ## 部署支持
 
-[`sim2real`](https://github.com/EGalahad/sim2real) 提供模块化 observation 接口，将各策略特有的输入构造与共享部署运行时分离。接入新策略只需要实现对应的 observation class 和 YAML 配置，推理、仿真器与机器人接口均保持不变。同一条公共路径已支持 MimicLite、HEFT、TeleopIT、Humanoid-GPT、BFM-Zero、SONIC 和 TWIST2 的 MuJoCo 集成评测与真机执行。Policy 推理通过可替换的 MuJoCo 和 Unitree G1 真机 backend 与机器人 I/O 解耦。
+[`sim2real`](https://github.com/MIy2003/sim2real) 提供模块化 observation 接口，将各策略特有的输入构造与共享部署运行时分离。接入新策略只需要实现对应的 observation class 和 YAML 配置，推理、仿真器与机器人接口均保持不变。同一条公共路径已支持 MimicLite、HEFT、TeleopIT、Humanoid-GPT、BFM-Zero、SONIC 和 TWIST2 的 MuJoCo 集成评测与真机执行。Policy 推理通过可替换的 MuJoCo 和 Unitree G1 真机 backend 与机器人 I/O 解耦。
 
 ## 许可证
 

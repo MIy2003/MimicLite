@@ -16,3 +16,5 @@ __pycache__/
 Thumbs.db
 MUJOCO_LOG.TXT
 
+# Local motion dataset
+loco_manip_physical_rollout_accepted_v1/

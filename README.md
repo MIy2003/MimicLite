@@ -12,10 +12,10 @@ This repository is the project landing page. Training, evaluation, dataset conve
 
 | Component | Repository | Contents |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | Training, evaluation, policy export, task configs, and learning code. |
-| Training framework | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | Simulation backends, distributed launchers, environments, and shared infrastructure. |
-| Motion data toolkit | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | Motion conversion, validation, visualization, and dataset tooling. |
-| Deployment runtime | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX inference, MuJoCo sim2sim, Pico teleoperation, and Unitree G1 deployment. |
+| MimicLite | [`MIy2003/mimic-lite`](https://github.com/MIy2003/mimic-lite) | Training, evaluation, policy export, task configs, and learning code. |
+| Training framework | [`MIy2003/active-adaptation`](https://github.com/MIy2003/active-adaptation) | Simulation backends, distributed launchers, environments, and shared infrastructure. |
+| Motion data toolkit | [`MIy2003/any4hdmi`](https://github.com/MIy2003/any4hdmi) | Motion conversion, validation, visualization, and dataset tooling. |
+| Deployment runtime | [`MIy2003/sim2real`](https://github.com/MIy2003/sim2real) | ONNX inference, MuJoCo sim2sim, Pico teleoperation, and Unitree G1 deployment. |
 
 ## Released Checkpoints
 
@@ -45,11 +45,11 @@ the shared 50 Hz reference-motion contract.
 
 ## Training Data
 
-Released training datasets are collected in the [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi). The [`BONES-SEED` dataset](https://huggingface.co/datasets/bones-studio/seed) is the exception: to respect its license and redistribution terms, users obtain it from the original source, while [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) provides only the conversion scripts and processing tools.
+Released training datasets are collected in the [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi). The [`BONES-SEED` dataset](https://huggingface.co/datasets/bones-studio/seed) is the exception: to respect its license and redistribution terms, users obtain it from the original source, while [`MIy2003/any4hdmi`](https://github.com/MIy2003/any4hdmi) provides only the conversion scripts and processing tools.
 
 ## Deployment Support
 
-The [`sim2real`](https://github.com/EGalahad/sim2real) runtime provides a modular observation interface that separates policy-specific input construction from the shared deployment runtime. Integrating a policy requires only an observation class and a YAML specification; the inference, simulator, and robot interfaces remain unchanged. This common path supports integrated MuJoCo evaluation and real-robot execution for MimicLite, HEFT, TeleopIT, Humanoid-GPT, BFM-Zero, SONIC, and TWIST2. Policy inference is decoupled from robot I/O through interchangeable MuJoCo and physical Unitree G1 backends.
+The [`sim2real`](https://github.com/MIy2003/sim2real) runtime provides a modular observation interface that separates policy-specific input construction from the shared deployment runtime. Integrating a policy requires only an observation class and a YAML specification; the inference, simulator, and robot interfaces remain unchanged. This common path supports integrated MuJoCo evaluation and real-robot execution for MimicLite, HEFT, TeleopIT, Humanoid-GPT, BFM-Zero, SONIC, and TWIST2. Policy inference is decoupled from robot I/O through interchangeable MuJoCo and physical Unitree G1 backends.
 
 ## License
 
