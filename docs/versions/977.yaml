@@ -1,0 +1,603 @@
+task:
+  observation:
+    priv:
+      ref_root_pos_future_b:
+        _target_: mimic_lite.ref_root_pos_future_b
+      ref_root_ori_future_b:
+        _target_: mimic_lite.ref_root_ori_future_b
+      body_spatial_error_local:
+        _target_: mimic_lite.body_spatial_error_local
+        future_steps:
+        - 0
+        - 1
+      diff_body_lin_vel_future:
+        _target_: mimic_lite.diff_body_lin_vel_future
+        future_steps:
+        - 0
+        - 1
+      diff_body_ang_vel_future:
+        _target_: mimic_lite.diff_body_ang_vel_future
+        future_steps:
+        - 0
+        - 1
+      applied_action:
+        _target_: mimic_lite.applied_action
+      applied_torque:
+        _target_: mimic_lite.applied_torque
+      chip_privileged:
+        _target_: mimic_lite.chip_privileged
+    command:
+      chip_command:
+        _target_: mimic_lite.chip_command
+    policy:
+      chip_history:
+        _target_: mimic_lite.chip_history
+        history_length: 10
+        noise: true
+  termination:
+    motion_timeout:
+      is_timeout: true
+    root_pos_error:
+      _target_: cum_body_pos_error
+      body_names: torso_link
+      min_steps: 25
+      threshold: 0.4
+      is_timeout: true
+      enabled: true
+    root_ori_error:
+      _target_: cum_body_ori_error
+      body_names: torso_link
+      min_steps: 25
+      threshold: 1.2
+    body_pos_error:
+      _target_: cum_body_pos_error_local
+      body_names:
+      - pelvis
+      - torso_link
+      - .*_hip_roll_link
+      - .*_knee_link
+      - .*_ankle_roll_link
+      - .*_shoulder_roll_link
+      - .*_elbow_link
+      - .*_wrist_yaw_link
+      min_steps: 5
+      threshold: 0.4
+    body_ori_error:
+      _target_: cum_body_ori_error_local
+      body_names:
+      - pelvis
+      - torso_link
+      - .*_hip_roll_link
+      - .*_knee_link
+      - .*_ankle_roll_link
+      - .*_shoulder_roll_link
+      - .*_elbow_link
+      - .*_wrist_yaw_link
+      min_steps: 5
+      threshold: 1.2
+  name: chip_6d_xyz_rot_scalar_no_upper_tracking_loco_train
+  project: mimic_lite
+  num_envs: 16384
+  max_episode_length: 1000
+  terrain: plane
+  enable_cameras: false
+  viewer:
+    resolution:
+    - 1280
+    - 720
+    lookat:
+    - 0.0
+    - 0.0
+    - 0.0
+    eye:
+    - 4.0
+    - 4.0
+    - 4.0
+  sim:
+    step_dt: 0.02
+    isaac_physics_dt: 0.005
+  robot:
+    name: g1-mode_15-chip-payload
+  shared:
+    termination_root_body_name: torso_link
+    tracking_body_names:
+    - pelvis
+    - torso_link
+    - .*_hip_roll_link
+    - .*_knee_link
+    - .*_ankle_roll_link
+    - .*_shoulder_roll_link
+    - .*_elbow_link
+    - .*_wrist_yaw_link
+    lower_body_names:
+    - pelvis
+    - torso_link
+    - .*_hip_roll_link
+    - .*_knee_link
+    - .*_ankle_roll_link
+    lower_joint_names:
+    - .*_hip_.*_joint
+    - .*_knee_joint
+    - .*_ankle_.*_joint
+  input:
+    action:
+      _target_: mimic_lite.JointPosition
+      action_scaling:
+        .*_hip_yaw_joint: 0.55
+        .*_hip_roll_joint: 0.35
+        .*_hip_pitch_joint: 0.55
+        .*_knee_joint: 0.35
+        .*_ankle_pitch_joint: 0.44
+        .*_ankle_roll_joint: 0.44
+        waist_roll_joint: 0.44
+        waist_pitch_joint: 0.44
+        waist_yaw_joint: 0.55
+        .*_shoulder_pitch_joint: 0.44
+        .*_shoulder_roll_joint: 0.44
+        .*_shoulder_yaw_joint: 0.44
+        .*_elbow_joint: 0.44
+        .*_wrist_roll_joint: 0.44
+        .*_wrist_pitch_joint: 0.44
+        .*_wrist_yaw_joint: 0.44
+      min_delay: 1
+      max_delay: 3
+      alpha_range:
+      - 0.8
+      - 1.0
+  command:
+    _target_: mimic_lite.ChipTracking
+    motion_cfgs:
+      core_motiondecode:
+        path: /share/ml/yangmin/mimiclite-chip/loco_manip_physical_rollout_accepted_v1/pools/core_motiondecode
+        filenames_path: /share/ml/yangmin/mimiclite-chip/active-adaptation/.cache/chip_6d_xyz_rot_scalar_no_upper_tracking_loco/chip_6d_xyz_rot_scalar_no_upper_tracking_loco_train_core_motiondecode.txt
+        weight: 4504
+        full_motion: false
+      core_sonic:
+        path: /share/ml/yangmin/mimiclite-chip/loco_manip_physical_rollout_accepted_v1/pools/core_sonic
+        filenames_path: /share/ml/yangmin/mimiclite-chip/active-adaptation/.cache/chip_6d_xyz_rot_scalar_no_upper_tracking_loco/chip_6d_xyz_rot_scalar_no_upper_tracking_loco_train_core_sonic.txt
+        weight: 4085
+        full_motion: false
+      support_motiondecode:
+        path: /share/ml/yangmin/mimiclite-chip/loco_manip_physical_rollout_accepted_v1/pools/support_motiondecode
+        filenames_path: /share/ml/yangmin/mimiclite-chip/active-adaptation/.cache/chip_6d_xyz_rot_scalar_no_upper_tracking_loco/chip_6d_xyz_rot_scalar_no_upper_tracking_loco_train_support_motiondecode.txt
+        weight: 233
+        full_motion: false
+      support_sonic:
+        path: /share/ml/yangmin/mimiclite-chip/loco_manip_physical_rollout_accepted_v1/pools/support_sonic
+        filenames_path: /share/ml/yangmin/mimiclite-chip/active-adaptation/.cache/chip_6d_xyz_rot_scalar_no_upper_tracking_loco/chip_6d_xyz_rot_scalar_no_upper_tracking_loco_train_support_sonic.txt
+        weight: 2454
+        full_motion: false
+    tracking_body_names:
+    - pelvis
+    - torso_link
+    - .*_hip_roll_link
+    - .*_knee_link
+    - .*_ankle_roll_link
+    - .*_shoulder_roll_link
+    - .*_elbow_link
+    - .*_wrist_yaw_link
+    obs_body_names:
+    - pelvis
+    - torso_link
+    - .*_hip_roll_link
+    - .*_knee_link
+    - .*_ankle_roll_link
+    - .*_shoulder_roll_link
+    - .*_elbow_link
+    - .*_wrist_yaw_link
+    tracking_joint_names:
+    - waist_.*_joint
+    - .*_hip_.*_joint
+    - .*_knee_joint
+    - .*_ankle_.*_joint
+    - .*_shoulder_.*_joint
+    - .*_elbow_joint
+    - .*_wrist_.*_joint
+    root_body_name: pelvis
+    anchor_body_name: pelvis
+    future_steps:
+    - 0
+    - 1
+    diff_future_steps:
+    - 0
+    - 1
+    init_joint_pos_noise: 0.1
+    init_joint_vel_noise: 0.1
+    rewind_prob: 0.8
+    rewind_steps_range:
+    - 25
+    - 125
+    chip:
+      compliance_mode: wrist_6d
+      axis_probabilities:
+      - 0.2
+      - 0.6
+      - 0.15
+      - 0.05
+      axis_cone_degrees:
+      - 30.0
+      - 60.0
+      - 90.0
+      fixed_stiffness_axis: null
+      compliance_max:
+      - 0.02
+      - 0.02
+      - 0.0
+      compliance_scale: 10.0
+      compliance_duration:
+      - 100
+      - 200
+      zero_probability: 0.25
+      max_probability: 0.25
+      sampling_power: 2.0
+      max_force: 20.0
+      force_duration:
+      - 50
+      - 100
+      force_interval: 100
+      body_probabilities:
+      - 0.15
+      - 0.75
+      - 0.1
+      multi_body_probability: 0.1
+      warmup_steps: 500
+      ramp_steps: 5000
+      point_offsets:
+      - - 0.18
+        - -0.025
+        - 0.0
+      - - 0.0719
+        - -0.003
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.35
+      compliance_6d_max:
+      - 0.02
+      - 0.02
+      - 0.02
+      - 1.0
+      - 1.0
+      - 1.0
+      compliance_6d_scale:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 1.0
+      - 1.0
+      - 1.0
+      left_compliance_mode: rigid
+      translation_pattern_probabilities:
+      - 0.25
+      - 0.05
+      - 0.05
+      - 0.35
+      - 0.25
+      - 0.05
+      rotation_pattern_probabilities:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.75
+      - 0.25
+      - 0.0
+      structured_max_probability: 0.5
+      rigid_probability: 0.25
+      torque_axis_probability: 0.8
+      max_torque: 4.0
+      torque_amplitude_bands: null
+      angular_hindsight_limit: 2.0943951023931953
+      wrench_event_probabilities:
+      - 0.4
+      - 0.4
+      - 0.2
+  reward:
+    tracking:
+      root_pos:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_pos_error
+        body_names:
+        - pelvis
+        weight: 0.5
+        sigma: 0.3
+      root_ori:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_ori_error
+        body_names:
+        - pelvis
+        weight: 0.5
+        sigma: 0.4
+      body_pos:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_pos_error_local
+        body_names:
+        - pelvis
+        - torso_link
+        - .*_hip_roll_link
+        - .*_knee_link
+        - .*_ankle_roll_link
+        weight: 0.5
+        sigma: 0.3
+      body_ori:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_ori_error_local
+        body_names:
+        - pelvis
+        - torso_link
+        - .*_hip_roll_link
+        - .*_knee_link
+        - .*_ankle_roll_link
+        weight: 0.5
+        sigma: 0.4
+      body_linvel:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_lin_vel_error
+        body_names:
+        - pelvis
+        - torso_link
+        - .*_hip_roll_link
+        - .*_knee_link
+        - .*_ankle_roll_link
+        weight: 0.25
+        sigma: 1.0
+      body_angvel:
+        _target_: mimic_lite.body_tracking_squared_exp
+        error_type: body_ang_vel_error
+        body_names:
+        - pelvis
+        - torso_link
+        - .*_hip_roll_link
+        - .*_knee_link
+        - .*_ankle_roll_link
+        weight: 0.25
+        sigma: 3.14
+      lower_joint_pos:
+        _target_: mimic_lite.joint_pos_tracking_product
+        joint_names:
+        - .*_hip_.*_joint
+        - .*_knee_joint
+        - .*_ankle_.*_joint
+        weight: 0.5
+        sigma: 0.25
+      lower_joint_vel:
+        _target_: mimic_lite.joint_vel_tracking_product
+        joint_names:
+        - .*_hip_.*_joint
+        - .*_knee_joint
+        - .*_ankle_.*_joint
+        weight: 0.5
+        sigma: 2.5
+      chip_pos:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 2.0
+        sigma: 0.1
+      chip_pos_precision:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 2.0
+        sigma: 0.04
+      chip_pos_fine:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 2.0
+        sigma: 0.03
+      chip_ori:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 0.5
+        sigma: 0.4
+        orientation: true
+      chip_ori_precision:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 0.25
+        sigma: 0.15
+        orientation: true
+      chip_ori_fine:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 0.25
+        sigma: 0.1
+        orientation: true
+      chip_right_hand_pos:
+        _target_: mimic_lite.chip_tracking_reward
+        weight: 1.0
+        sigma: 0.03
+        point_weights:
+        - 0
+        - 1
+        - 0
+    loco:
+      action_rate_l2:
+        weight: 0.1
+        enabled: true
+      joint_vel_l2:
+        weight: 0.0001
+        joint_names: .*
+      joint_pos_limits:
+        _target_: mimic_lite.joint_pos_limits
+        weight: 10.0
+        joint_names: .*
+        soft_factor: 0.9
+      self_collisions:
+        _target_: mimic_lite.self_collisions
+        weight: -1.0
+        sensor_name: self_collision
+        force_threshold: 1.0
+      undesired_ground_contacts:
+        _target_: mimic_lite.undesired_ground_contacts
+        weight: -0.1
+        sensor_name: undesired_ground_contact
+        force_threshold: 1.0
+      survival:
+        weight: 4.0
+    chip_metrics:
+      _enabled_: false
+      right_wrist_error:
+        _target_: mimic_lite.chip_metric
+        weight: 1.0
+        enabled: false
+      right_wrist_force:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_force
+        weight: 1.0
+        enabled: false
+      right_wrist_compliance:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_compliance
+        weight: 1.0
+        enabled: false
+      right_wrist_force_parallel:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_force_parallel
+        weight: 1.0
+        enabled: false
+      right_wrist_force_perpendicular:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_force_perpendicular
+        weight: 1.0
+        enabled: false
+      right_wrist_error_parallel:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_error_parallel
+        weight: 1.0
+        enabled: false
+      right_wrist_error_perpendicular:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_error_perpendicular
+        weight: 1.0
+        enabled: false
+      right_wrist_torque:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_torque
+        weight: 1.0
+        enabled: false
+      right_wrist_angular_compliance:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_angular_compliance
+        weight: 1.0
+        enabled: false
+      right_wrist_ori_error:
+        _target_: mimic_lite.chip_metric
+        quantity: right_wrist_ori_error
+        weight: 1.0
+        enabled: false
+  randomization:
+    perturb_body_mass:
+      pelvis:
+      - 0.9
+      - 1.1
+      torso_link:
+      - 0.9
+      - 1.1
+    perturb_body_com:
+      pelvis|torso_link:
+      - -0.03
+      - 0.03
+    motor_params_implicit:
+      stiffness_range:
+        .*:
+        - 0.9
+        - 1.1
+      damping_range:
+        .*:
+        - 0.9
+        - 1.1
+      armature_range:
+        .*:
+        - 0.75
+        - 1.25
+      friction_range:
+        .*:
+        - 0.05
+        - 0.25
+    random_joint_offset:
+      .*:
+      - -0.01
+      - 0.01
+  total_iters: 30000
+algo:
+  _target_: mimic_lite_learning.ppo.PPOConfig
+  name: mimic_lite_ppo
+  train_every: 32
+  ppo_epochs: 5
+  num_minibatches: 8
+  clip_param: 0.2
+  gamma: 0.99
+  lmbda: 0.95
+  lr: 0.0003
+  desired_kl: 0.01
+  desired_kl_end: 0.005
+  tail_kl_lr_control: true
+  kl_lr_high_threshold_ratio: 2.0
+  epoch_kl_early_stop: false
+  opt: muon
+  compile: false
+  compile_rollout: false
+  compile_train_modules: false
+  entropy_coef_start: 0.01
+  entropy_coef_end: 0.002
+  entropy_decay_start: 0.75
+  entropy_decay_end: 1.0
+  init_noise_scale: 1.0
+  load_noise_scale: null
+  clip_neg_reward: false
+  normalize_before_sum: false
+  layer_norm: before
+  value_norm: false
+  actor_hidden_dims:
+  - 1024
+  - 512
+  - 512
+  use_actor_encoder: false
+  encoder_hidden_dims: []
+  latent_dim: 256
+  encoder_in_keys:
+  - priv
+  res_actor_hidden_dims: []
+  actor_residual_alpha_init: -4.0
+  critic_hidden_dims:
+  - 1024
+  - 512
+  - 512
+  max_grad_norm: 4.0
+  separate_actor_encoder_grad_clip: false
+  in_keys:
+  - command
+  - policy
+  - priv
+  actor_in_keys:
+  - policy
+  - command
+  vecnorm: true
+  freeze_vecnorm: false
+  grad_sync_mode: ddp
+  ddp_bucket_cap_mb: 4.0
+  ddp_gradient_as_bucket_view: true
+  manual_construct_dist_now: true
+  value_chunk_size: 65536
+  rollout_amp_dtype: null
+  train_amp_dtype: bf16
+  grad_accum_steps: 1
+headless: true
+exp_name: chip_6d_xyz_rot_scalar_no_upper_tracking-lambda-16384x4-977
+backend: mjlab
+device: cuda:0
+app:
+  headless: true
+  enable_cameras: false
+total_frames: 150000000
+total_iters: 30000
+max_iters: -1
+eval_interval: -1
+eval_render: false
+checkpoint_interval: 500
+upload_interval: 500
+render_interval: -1
+render_decimation: 4
+seed: 42
+checkpoint_path: null
+export_policy: false
+camera_follow: true
+wandb:
+  name: chip_6d_xyz_rot_scalar_no_upper_tracking-lambda-16384x4-977/10-01_15-53
+  job_type: train
+  project: mimic_lite
+  mode: offline
+  id: null
+  tags: []

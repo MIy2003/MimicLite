@@ -1,3 +1,5 @@
+> 本仓库的 **862、977、5292** 训练版本对比、参数及部署说明见 [主 README](README.md)。以下保留通用项目介绍。
+
 [中文版](README_cn.md) | [English](README.md)
 
 # MimicLite
