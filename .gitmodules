@@ -6,7 +6,7 @@
 [submodule "mimic-lite"]
 	path = mimic-lite
 	url = https://github.com/MIy2003/mimic-lite.git
-	branch = chip-compliance
+	branch = chip-five-point-5292
 [submodule "sim2real"]
 	path = sim2real
 	url = https://github.com/MIy2003/sim2real.git
